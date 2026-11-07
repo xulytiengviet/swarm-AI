@@ -1,37 +1,41 @@
-# SwarmOps — 58 AI Agents soạn thư mời trong 10 giây
+# SWARMOPS – 58 AI Agents tái dựng thư mời K28 trong 10 giây
 
-## Khởi động
+**Xem trực tuyến:** https://xulytiengviet.github.io/swarm-AI/
 
-Mở file index.html trong Chrome/Edge/Firefox, hoặc truy cập https://xulytiengviet.github.io/swarm-AI/ sau khi GitHub Pages đã bật.
+## Nguồn ảnh
 
-- Chạy lại: dựng lại từ trang giấy trắng.
-- Tạm dừng / Tiếp tục: dừng hoặc chạy tiếp đồng hồ.
-- Thanh tiến trình: tua đến thời điểm bất kỳ.
-- Tốc độ: 0.5×, 1×, 2×. Ở 1×, tổng thời gian 10 giây.
-- Khi kết thúc: Sao chép nội dung, hoặc Xuất PDF qua hộp thoại in trình duyệt.
+- `assets/k28-invitation.webp`: ảnh thư mời gốc “Tọa Độ Thanh Xuân”, USSH – Địa lý K28, do người dùng cung cấp; chuyển từ PNG 1024 × 1536 sang WebP 900 × 1350 để hiển thị nhanh hơn. Không thay nội dung, bố cục hoặc tạo lại thư bằng AI.
+- `index.html`: dashboard trực quan tái dựng từng vùng từ ảnh. Khi hoàn thành, hình hiển thị trùng với tài nguyên WebP đã lưu.
+- Ngày họp mặt ghi trong ảnh: **14/11/2026**, 12:00 tại cơ sở Linh Xuân; 17:00 tại Harmony Saigon Hotel & Spa.
 
-## Cấu trúc
+## Cách sử dụng
 
-- 58 con trỏ trên trình duyệt: đại diện trực quan cho các tác tử.
-- 8 nhóm: Điều phối (6), Bố cục (8), Nội dung (8), Ngôn ngữ (8), Thời gian và sự kiện (7), Thiết kế (7), Kiểm định (7), Xuất bản (7).
-- 16 đầu việc soạn thảo văn bản; timeline 0–10 giây; nhật ký sự kiện; 4 kiểm định giả lập.
-- Thư mời khổ A4 bằng tiếng Việt, có thể lưu PDF từ trình duyệt.
+1. Mở dashboard. Nếu muốn bắt đầu từ giấy trắng, nhấn **Chạy lại**.
+2. Quan sát 58 con trỏ thuộc 8 đội phân vai, hoạt động trên **16 vùng** của thư mời.
+3. Dừng/chạy tiếp, tua thanh tiến trình 0–10 giây hoặc đổi tốc độ 0.5×/1×/2×.
+4. Khi hoàn thành, **Xem ảnh gốc**, **Sao chép** nội dung hoặc **Xuất PDF** bằng hộp thoại in của trình duyệt.
 
-## Bật GitHub Pages
+## Các nhóm mô phỏng
 
-1. Mở https://github.com/xulytiengviet/swarm-AI/settings/pages
-2. Ở Build and deployment chọn Source = GitHub Actions.
-3. Mở tab Actions → Deploy SwarmOps demo, nhấn Run workflow nếu cần.
-4. Khi workflow thành công, mở https://xulytiengviet.github.io/swarm-AI/
+Điều phối (6), Bố cục (8), Nội dung (8), Ngôn ngữ (8), Thời gian & sự kiện (7), Thiết kế (7), Kiểm định (7), Xuất bản (7). Tổng cộng **58 con trỏ**. Các nhóm là vai diễn trực quan trong trình duyệt, không phải các tiến trình LLM độc lập.
 
-Workflow chỉ đưa file index.html vào trang công khai, không đăng tải mã extension.
+## Quy trình 10 giây
 
-## Giới hạn quan trọng
+- 0–2s: tập hợp bầy đàn, bắt đầu dựng logo 15 năm và cảnh quan.
+- 2–4s: hiện chữ “Tọa Độ Thanh Xuân”, “Thư Mời”, tên người nhận.
+- 4–6s: dựng văn bản họp mặt và lời tri ân.
+- 6–8s: ghép hai khung lịch và địa điểm.
+- 8–10s: ghép chi tiết cuối, kiểm tra mô phỏng, hoàn thành.
 
-Đây là mô phỏng frontend, không có 58 LLM thực sự suy luận. Các đầu việc và cổng kiểm tra được điều khiển theo kịch bản để minh họa phương pháp phối hợp, không phải kết quả xác thực thực nghiệm. Mẫu thư có ngày, giờ, địa điểm và người đại diện dạng placeholder phải sửa trước khi gửi thật.
+Mô phỏng sử dụng Canvas API vẽ lại từng vùng bằng `drawImage` trên **cùng một ảnh nguyên bản**, không phải mô hình text-to-image. Mỗi Agent là một con trỏ DOM/SVG tương tác với vùng nhiệm vụ. 4 cổng QA chỉ có vai trò minh họa.
 
-Mã HTML demo được viết độc lập, không sao chép động cơ hoạt họa từ tiện ích Chrome gốc. Phần fork từ DhvanilPatel/swarm-cursors được giữ nguyên và có lưu ý về tình trạng giấy phép trong README.
+## GitHub Pages
 
-## Lộ trình vận hành AI thật
+Workflow `.github/workflows/pages.yml` sao chép `index.html` và `assets/` vào artifact GitHub Pages. Trong **Settings → Pages**, chọn Source = **GitHub Actions**. Chạy workflow **Deploy SwarmOps demo** khi cần.
 
-Tạo orchestrator; định nghĩa API nhiệm vụ cho từng nhóm; kết nối LLM và công cụ; phát sự kiện theo WebSocket/SSE vào dashboard; thực hiện kiểm chứng nội dung trước khi xuất bản. Khi chạy thật, không cam kết hoàn thành đúng 10 giây.
+## Lưu ý kỹ thuật
+
+- 10 giây được tính ở tốc độ 1× trong lúc tab đang hoạt động; trình duyệt có thể giảm tốc hoạt họa ở tab nền.
+- Có chế độ giảm chuyển động theo cài đặt hệ điều hành; sử dụng phím Space để phát/dừng khi không đặt con trỏ trong ô nhập liệu.
+- Mã dashboard viết độc lập, giữ nguyên thư mục extension fork `swarm-rebuild/`. README gốc nêu các hạn chế giấy phép của mã Swarm Rebuild.
+- Không có backend; nếu cần AI thật, bổ sung orchestrator, LLM, phân nhiệm vụ thực, nhật ký SSE/WebSocket và bộ đánh giá chất lượng.
