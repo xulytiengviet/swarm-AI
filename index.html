@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080e18">
+<meta name="description" content="SwarmOps: 58 tác tử mô phỏng cùng tạo một thư mời hoàn chỉnh trong 10 giây.">
+<title>SwarmOps · 58 AI Agents / 10 giây</title>
+<style>
+:root{color-scheme:dark;--bg:#080e18;--panel:#111d2d;--panel2:#152336;--line:#28394e;--ink:#eff8ff;--muted:#91a7bb;--mint:#66e7d4;--blue:#7fa9ff;--gold:#eec783;--ok:#6fe0ac;--radius:15px}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:radial-gradient(ellipse at 42% -20%,#183753 0,transparent 50%),var(--bg)}
+button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--mint);outline-offset:3px}
+a{color:#a9dbff;text-decoration:none}a:hover{text-decoration:underline}
+.app{max-width:1740px;margin:auto;padding:0 22px 35px}
+.top{height:70px;display:flex;align-items:center;gap:20px;border-bottom:1px solid #27394d}
+.brand{display:flex;align-items:center;gap:11px;white-space:nowrap}
+.mark{width:37px;height:37px;border-radius:11px;background:linear-gradient(138deg,#5ef2d7,#467ee0);display:grid;place-items:center;color:#061b2b;font-size:21px;font-weight:900;box-shadow:0 0 30px #48cbcb35}
+.brand strong{display:block;font-size:14px;letter-spacing:.11em}.brand small{display:block;color:#8bacc4;font-size:10px;letter-spacing:.13em}
+.top nav{margin-left:auto;display:flex;gap:20px;align-items:center;color:#aec3d7;font-size:11px}
+.status{background:#17312f;color:#99f5d7;border:1px solid #296254;border-radius:30px;font-weight:800;font-size:10px;letter-spacing:.1em;padding:7px 11px;display:flex;align-items:center;gap:8px}
+.status i{width:7px;height:7px;background:#6fe0ac;border-radius:50%;box-shadow:0 0 0 4px #60dfac25}
+.intro{display:flex;align-items:end;justify-content:space-between;gap:20px;padding:27px 2px 22px}
+.eyebrow{color:#66e7d4;letter-spacing:.18em;font-size:10px;font-weight:800;margin-bottom:7px;text-transform:uppercase}
+h1{font-size:clamp(24px,2.3vw,34px);line-height:1.18;letter-spacing:-.03em;margin:0;font-weight:800}
+.intro p{color:#90a8be;margin:8px 0 0;font-size:12px;max-width:720px}
+.toolbar{display:flex;gap:7px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid #36506a;border-radius:9px;padding:9px 12px;min-height:38px;background:#17283c;color:#e0effb;font-size:11px;font-weight:800}
+.btn:hover{background:#23405a}.btn.primary{color:#0c2930;background:var(--mint);border-color:var(--mint)}
+.btn.primary:hover{background:#a6fff2}.btn:disabled{opacity:.45;cursor:not-allowed}
+select.btn{appearance:auto;min-width:74px}
+.kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-bottom:14px}
+.kpi{background:linear-gradient(140deg,#142338,#101a29);border:1px solid var(--line);border-radius:13px;padding:12px 16px;min-height:86px}
+.kpi label{display:block;color:#9db3c7;text-transform:uppercase;letter-spacing:.1em;font-size:10px;font-weight:800}
+.kpi b{display:block;font-size:28px;letter-spacing:-.045em;line-height:1.36;font-variant-numeric:tabular-nums}
+.kpi small{color:#829db2;font-size:10px}.kpi.hot b{color:var(--mint)}
+.workgrid{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:14px}
+.panel{min-width:0;background:linear-gradient(150deg,#121e2e,#0d1725);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.panelhead{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 17px;border-bottom:1px solid #26354b}
+.panelhead h2{margin:0;font-size:13px;font-weight:800}.panelhead p{margin:2px 0 0;font-size:10px;color:#90a8bc}
+.pill{border:1px solid #345d65;border-radius:7px;padding:5px 9px;background:#142f36;color:#96efdf;font-size:10px;white-space:nowrap;font-weight:800}
+.workspace{position:relative;min-height:750px;background-color:#0a1625;background-image:linear-gradient(#ffffff07 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:26px 26px;overflow:hidden;isolation:isolate}
+.workspace:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,#253f5880,transparent 70%);pointer-events:none}
+.sheet{position:relative;width:min(570px,calc(100% - 64px));min-height:704px;margin:22px auto 24px;box-shadow:0 8px 60px #0009,0 0 0 1px #dee5f0;border-radius:2px;background:#fff;color:#1b2b39;padding:35px 43px 27px;z-index:2;font-family:Georgia,"Times New Roman",serif;overflow:hidden}
+.sheet:after{content:"";position:absolute;left:0;right:0;top:0;height:7px;background:linear-gradient(90deg,#184874,#3b9d9f,#c6a165)}
+.folio{position:absolute;right:22px;bottom:13px;color:#9cabb4;font:10px system-ui,sans-serif}
+.doc-chip{position:absolute;top:10px;right:12px;background:#e5f2f4;color:#195967;padding:3px 7px;border-radius:3px;font:700 9px system-ui;letter-spacing:.04em}
+.paperhead{display:grid;grid-template-columns:54px 1fr;gap:14px;align-items:center;padding-bottom:15px;border-bottom:2px solid #1b4b69;margin-bottom:22px}
+.seal{display:flex;align-items:center;justify-content:center;width:48px;height:48px;border:2px solid #286785;border-radius:50%;color:#2d7585;font:800 21px system-ui}
+.agency{font:700 12px system-ui;color:#17435e;letter-spacing:.03em;min-height:19px}
+.agency-sub{font:10px system-ui;color:#6c7b89;margin-top:3px;min-height:17px}
+.letter-ref{font:10px system-ui;color:#657b8e;min-height:17px;display:flex;justify-content:space-between;margin-bottom:12px}
+.letter-title{text-align:center;font-size:27px;font-weight:700;letter-spacing:.04em;color:#173a56;min-height:40px}
+.letter-sub{text-align:center;font-size:13px;font-style:italic;color:#627585;min-height:25px;margin:0 0 18px}
+.salutation{font-size:13px;font-weight:700;min-height:23px}
+.para{font-size:13px;line-height:1.66;text-align:justify;min-height:62px;margin-top:11px}
+.eventbox{border-left:3px solid #2c7189;background:#edf5f7;padding:9px 13px;margin:15px 0;min-height:92px;font:12px/1.65 system-ui;color:#294e63}
+.eventline{min-height:20px}
+.closing{min-height:37px;font-size:13px;line-height:1.6;margin-top:10px}
+.signature{text-align:right;font-size:11px;font-weight:700;margin-top:19px;min-height:63px}
+.signature .signed{display:block;font:italic 15px Georgia,serif;color:#245978;margin-top:12px}
+.footerline{margin-top:7px;border-top:1px solid #c9d4dc;padding-top:8px;font:9px system-ui;color:#7b8c9b}
+.build{visibility:hidden;position:relative;white-space:pre-wrap;overflow-wrap:break-word}
+.build.visible{visibility:visible}
+.build.building{background:linear-gradient(90deg,#d7f4f4 0,transparent 86%);outline:1px dashed #82bac4;outline-offset:2px}
+.build.building:after{content:"";display:inline-block;height:1em;width:2px;background:#227b90;vertical-align:-.15em;animation:caret .45s step-end infinite}
+@keyframes caret{50%{opacity:0}}
+.milestone{position:absolute;top:12px;left:12px;z-index:7;padding:6px 10px;border-radius:7px;border:1px solid #35506b;background:#0a1a2be8;color:#9ccbd8;font-size:10px;font-weight:800;letter-spacing:.065em}
+.pagegrid{position:absolute;inset:0;pointer-events:none;z-index:3}
+.ruler-y,.ruler-x{position:absolute;opacity:0;transition:opacity .3s;border-color:#ec847b99;pointer-events:none}
+.ruler-y{top:0;bottom:0;left:calc(50% - 285px);border-left:1px dashed}
+.ruler-x{height:0;left:0;right:0;top:114px;border-top:1px dashed}
+.ruler-y.show,.ruler-x.show{opacity:.65}
+.cursor-layer{position:absolute;inset:0;z-index:9;pointer-events:none;overflow:hidden}
+.agent{position:absolute;width:23px;height:25px;will-change:transform;pointer-events:auto;cursor:help;transition:opacity .4s}
+.agent svg{display:block;width:19px;height:22px;filter:drop-shadow(0 2px 1px #09131faa)}
+.agent .agentname{position:absolute;left:13px;top:17px;transform:translateY(-2px);color:#fff;border-radius:4px;padding:2px 5px;white-space:nowrap;font:800 8px/1.3 system-ui;background:var(--role);box-shadow:0 3px 5px #0005}
+.agent.dim{opacity:.28}.agent.solo{z-index:12}
+.agent:hover{z-index:20;opacity:1}
+.finished{position:absolute;z-index:4;right:calc(50% - 257px);bottom:58px;transform:rotate(-8deg) scale(1.8);opacity:0;transition:opacity .35s,transform .4s;border:3px double #268a75;color:#268a75;padding:8px 11px;border-radius:7px;font:bold 13px system-ui;letter-spacing:.07em;pointer-events:none}
+.finished.show{opacity:.72;transform:rotate(-8deg) scale(1)}
+.workbar{padding:15px 17px 14px;background:#101d2d;border-top:1px solid #2a3b50}
+.workbar-top{display:flex;justify-content:space-between;gap:14px;color:#9fbbce;font-size:11px;margin-bottom:6px}
+.workbar-top b{color:#76e5d8}
+input[type=range]{display:block;width:100%;height:13px;accent-color:var(--mint);cursor:pointer}
+.timeline{display:flex;justify-content:space-between;gap:5px;color:#7c99ae;font-size:9px;margin-top:7px}
+.timeline span{white-space:nowrap}
+.side{display:grid;grid-template-rows:auto auto 1fr;gap:13px;min-width:0}
+.side .panelhead{padding:12px 15px}
+.networkbox{height:175px;background:radial-gradient(ellipse,#143148,#0d1929 72%);overflow:hidden;position:relative}
+#network{width:100%;height:100%}
+.teams{padding:7px 14px 10px;display:grid;gap:2px}
+.team{display:grid;grid-template-columns:10px 1fr 26px 53px;gap:8px;align-items:center;padding:5px 3px;color:#cbd9e6;font-size:10px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--c)}
+.count{color:#97b3c7;text-align:right;font-variant-numeric:tabular-nums}
+.tstatus{font-size:9px;text-align:right;color:#90a5b9}
+.tstatus.working{color:#76dfda}.tstatus.done{color:#8febb2}
+.inspection{padding:10px 14px 12px}
+.check{display:flex;align-items:center;gap:10px;color:#b9ccdc;font-size:10px;border-bottom:1px solid #263a50;padding:8px 0}
+.check:last-child{border:0}.checkmark{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;background:#25384a;color:#91a3b4;font-weight:800;flex:none}
+.checkmark.pass{background:#164d40;color:#86f4c2}.checkmark.running{background:#3d3a25;color:#f5d69c}
+.console{padding:13px 14px;background:#091524;border-top:1px solid #28384b;min-height:152px}
+.console-title{font-size:10px;letter-spacing:.12em;color:#8baac1;font-weight:800;margin-bottom:8px}
+#logs{list-style:none;margin:0;padding:0;color:#b9cfdf;font:10px/1.6 ui-monospace,Consolas,monospace}
+#logs li{display:flex;gap:9px;margin:3px 0}#logs time{color:#56c6c1;white-space:nowrap}
+.tiny-note{margin:12px 1px 0;color:#7e98b0;font-size:11px}
+.tiny-note strong{color:#afc8dc}
+.bottom{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;padding:12px 0;color:#7b93a9;font-size:10px;border-top:1px solid #28394d}
+.toast{position:fixed;bottom:18px;left:50%;transform:translate(-50%,20px);z-index:40;background:#1a3b42;color:#b8ffeb;border:1px solid #5cd8c2;border-radius:10px;padding:10px 16px;font-size:12px;box-shadow:0 12px 45px #0007;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:1150px){.workgrid{grid-template-columns:minmax(0,1fr) 310px}.sheet{width:min(550px,calc(100% - 25px));padding:34px 30px}.ruler-y{display:none}.intro{align-items:start;flex-direction:column}.toolbar{justify-content:flex-start}}
+@media(max-width:850px){.workgrid{grid-template-columns:1fr}.side{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto}.side .panel:last-child{grid-column:1/-1}.workspace{min-height:720px}.kpis{grid-template-columns:repeat(3,1fr)}.top nav{gap:9px}.top nav a{display:none}}
+@media(max-width:550px){.app{padding:0 10px 20px}.top{height:62px}.top nav{font-size:10px}.intro{padding:21px 3px}.toolbar{width:100%}.btn{padding:8px 10px}.kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.kpi{padding:9px 11px;min-height:75px}.kpi b{font-size:24px}.workgrid{gap:10px}.panelhead{padding:12px}.workspace{min-height:654px}.sheet{width:calc(100% - 20px);margin:22px 10px;padding:31px 20px 20px;min-height:610px}.agency{font-size:10px}.paperhead{grid-template-columns:38px 1fr;gap:9px;margin-bottom:13px}.seal{width:36px;height:36px;font-size:16px}.letter-title{font-size:22px}.para,.salutation{font-size:11px}.para{min-height:57px}.closing{font-size:11px}.eventbox{font-size:10px}.signature{font-size:10px}.footerline{font-size:8px}.sheet .doc-chip{display:none}.finished{right:22px;bottom:40px}.side{grid-template-columns:1fr}.side .panel:last-child{grid-column:auto}.timeline span:nth-child(2),.timeline span:nth-child(4){display:none}.bottom{align-items:flex-start;flex-direction:column}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media print{@page{size:A4;margin:14mm}body{background:#fff;color:#000}.top,.intro,.kpis,.side,.panelhead,.workbar,.cursor-layer,.milestone,.pagegrid,.finished,.bottom,.toast{display:none!important}.app{margin:0;padding:0;max-width:none}.workgrid,.panel,.workspace{display:block;border:0;background:#fff;overflow:visible;min-height:0}.sheet{margin:0 auto;padding:18mm 15mm;width:100%;max-width:none;min-height:0;box-shadow:none;border:0;page-break-inside:avoid}.build{visibility:visible!important;outline:none!important;background:none!important}.build:after{display:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <div class="brand"><div class="mark" aria-hidden="true">✳</div><div><strong>SWARMOPS</strong><small>MULTI-AGENT WORKSPACE</small></div></div>
+  <nav><a href="https://github.com/xulytiengviet/swarm-AI" target="_blank" rel="noopener noreferrer">Mã nguồn ↗</a><span class="status"><i></i> <span id="mode">MÔ PHỎNG</span></span></nav>
+</header>
+<section class="intro">
+  <div><div class="eyebrow">Live coordination theater · Swarm AI</div><h1>58 AI Agents. Một thư mời. 10 giây.</h1><p>Quan sát 58 con trỏ làm việc đồng thời: chia nhiệm vụ, soạn thảo, căn chỉnh, kiểm tra và hoàn tất một thư mời. Mọi trạng thái là mô phỏng, không thực thi LLM thật.</p></div>
+  <div class="toolbar">
+    <button type="button" id="play" class="btn primary">❚❚ Tạm dừng</button>
+    <button type="button" id="replay" class="btn">↻ Chạy lại</button>
+    <label for="speed" class="eyebrow" style="margin:0;color:#99acbc;letter-spacing:0">Tốc độ</label>
+    <select id="speed" class="btn" aria-label="Tốc độ mô phỏng"><option value=".5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select>
+    <button type="button" id="copy" class="btn" disabled>⧉ Sao chép</button>
+    <button type="button" id="print" class="btn" disabled>⤓ Xuất PDF</button>
+  </div>
+</section>
+<section class="kpis" aria-label="Chỉ số mô phỏng">
+  <div class="kpi hot"><label>AI Agents</label><b>58<span style="font-size:12px;color:#8eaac1"> / 58</span></b><small>8 nhóm chuyên trách</small></div>
+  <div class="kpi"><label>Thời gian</label><b id="clock">00:00.0</b><small>Ngân sách: 10 giây</small></div>
+  <div class="kpi"><label>Công việc</label><b id="tasks">0 / 16</b><small>Đầu việc hoàn thành</small></div>
+  <div class="kpi"><label>Tiến độ</label><b id="progress">0%</b><small id="phase">Khởi động</small></div>
+  <div class="kpi"><label>Kiểm định</label><b id="qa">0 / 4</b><small>Tiêu chí kiểm tra</small></div>
+</section>
+<main class="workgrid">
+  <section class="panel" aria-label="Không gian dựng thư mời">
+    <div class="panelhead"><div><h2>DOCUMENT WORKSPACE / LIVE REBUILD</h2><p>58 con trỏ cùng biên tập trang giấy A4 từ trạng thái trắng</p></div><span id="state" class="pill">● ĐANG PHỐI HỢP</span></div>
+    <div class="workspace" id="workspace">
+      <div class="milestone" id="milestone">00:00 · PHÂN CÔNG TÁC TỬ</div>
+      <div class="pagegrid" aria-hidden="true"><div class="ruler-y" id="guideY"></div><div class="ruler-x" id="guideX"></div></div>
+      <article class="sheet" id="sheet" aria-label="Thư mời đang được tạo">
+        <span class="doc-chip">SWARM-DOC · A4</span>
+        <div class="paperhead">
+          <div class="seal" aria-hidden="true">AI</div>
+          <div><div class="agency build" id="b0"></div><div class="agency-sub build" id="b1"></div></div>
+        </div>
+        <div class="letter-ref"><span class="build" id="b2"></span><span class="build" id="b3"></span></div>
+        <div class="letter-title build" id="b4"></div>
+        <div class="letter-sub build" id="b5"></div>
+        <div class="salutation build" id="b6"></div>
+        <div class="para build" id="b7"></div>
+        <div class="para build" id="b8"></div>
+        <div class="eventbox">
+          <div class="eventline build" id="b9"></div>
+          <div class="eventline build" id="b10"></div>
+          <div class="eventline build" id="b11"></div>
+        </div>
+        <div class="closing build" id="b12"></div>
+        <div class="closing build" id="b13"></div>
+        <div class="signature"><div class="build" id="b14"></div><span class="signed build" id="b15"></span></div>
+        <div class="footerline">Bản mẫu minh họa · Chỉnh sửa thông tin sự kiện trước khi gửi chính thức.</div>
+        <div class="folio">01 / 01</div>
+      </article>
+      <div class="finished" id="stamp">✓ ĐÃ HOÀN THÀNH</div>
+      <div class="cursor-layer" id="cursors" aria-label="58 con trỏ mô phỏng"></div>
+    </div>
+    <div class="workbar">
+      <div class="workbar-top"><span id="stepLabel">Chuẩn bị nhiệm vụ và phân đội</span><b id="timer">00:00.0 / 00:10.0</b></div>
+      <input type="range" min="0" max="10" step=".01" value="0" id="seek" aria-label="Tua tiến trình 10 giây">
+      <div class="timeline"><span>0s · Điều phối</span><span>2s · Bố cục</span><span>4s · Soạn thảo</span><span>7s · Kiểm tra</span><span>10s · Hoàn tất</span></div>
+    </div>
+  </section>
+  <aside class="side" aria-label="Hệ thống giám sát bầy đàn">
+    <section class="panel">
+      <div class="panelhead"><div><h2>SWARM TOPOLOGY</h2><p>Sơ đồ liên kết 8 nhóm chuyên trách</p></div><span class="pill">58 NODES</span></div>
+      <div class="networkbox"><svg id="network" role="img" aria-label="Mô phỏng 8 nhóm AI kết nối với bộ điều phối"></svg></div>
+      <div class="teams" id="teams"></div>
+    </section>
+    <section class="panel">
+      <div class="panelhead"><div><h2>QUALITY GATES</h2><p>4 bước đánh giá trong mô phỏng</p></div><span id="qaTag" class="pill">CHỜ KIỂM TRA</span></div>
+      <div class="inspection" id="checks"></div>
+    </section>
+    <section class="panel">
+      <div class="panelhead"><div><h2>EVENT TRACE</h2><p>Nhật ký bầy đàn theo dòng thời gian</p></div><span class="pill">REPLAYABLE</span></div>
+      <div class="console"><div class="console-title">● AGENT MESSAGE STREAM</div><ol id="logs" aria-live="polite"></ol></div>
+    </section>
+  </aside>
+</main>
+<p class="tiny-note"><strong>Minh bạch:</strong> Đây là mô phỏng chuyển động và workflow 58 tác tử, không phải 58 mô hình AI chạy thực tế. Các chỉ số và kết quả kiểm định trong demo được tạo theo kịch bản định trước. Khi muốn vận hành thật cần kết nối backend điều phối, LLM và công cụ xác thực.</p>
+<footer class="bottom"><span>© 2026 SwarmOps · Mô phỏng giáo dục AI bầy đàn · Xây dựng độc lập, không sao chép Swarm Rebuild.</span><span><a href="https://github.com/xulytiengviet/swarm-AI" target="_blank" rel="noopener noreferrer">GitHub / xulytiengviet/swarm-AI ↗</a></span></footer>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+"use strict";
+const DURATION=10;
+const $=id=>document.getElementById(id);
+const teams=[
+{name:"Điều phối",n:6,color:"#6be9dc",begin:0},
+{name:"Bố cục",n:8,color:"#7fa9ff",begin:1.0},
+{name:"Nội dung",n:8,color:"#f7be77",begin:2.0},
+{name:"Ngôn ngữ",n:8,color:"#e7a1f8",begin:3.5},
+{name:"Thời gian & sự kiện",n:7,color:"#7adead",begin:5.3},
+{name:"Thiết kế",n:7,color:"#f38da2",begin:1.3},
+{name:"Kiểm định",n:7,color:"#d9cc7e",begin:7.4},
+{name:"Xuất bản",n:7,color:"#8cb8f7",begin:9.1}
+];
+const blocks=[
+{id:"b0",from:.8,to:1.55,team:1,text:"BAN TỔ CHỨC CHUYÊN ĐỀ AI & WEBGIS"},
+{id:"b1",from:1.1,to:1.8,team:5,text:"Kết nối tri thức · Đồng kiến tạo tương lai"},
+{id:"b2",from:1.55,to:2.1,team:1,text:"Số: 01/TM-SWARMOPS"},
+{id:"b3",from:1.65,to:2.2,team:4,text:"Ngày ... tháng ... năm ..."},
+{id:"b4",from:2.05,to:2.85,team:5,text:"THƯ MỜI"},
+{id:"b5",from:2.45,to:3.2,team:2,text:"Tham dự hội thảo chuyên đề AI bầy đàn và WebGIS"},
+{id:"b6",from:3.0,to:3.75,team:3,text:"Kính gửi: Quý đại biểu và các nhà nghiên cứu,"},
+{id:"b7",from:3.4,to:5.0,team:2,text:"Ban Tổ chức trân trọng kính mời Quý đại biểu tham dự buổi giới thiệu chuyên đề “AI bầy đàn và WebGIS: Từ tác tử thông minh đến ứng dụng thực tiễn”. Chương trình là dịp trao đổi về cách các tác tử AI phân công, cộng tác và kiểm chứng kết quả trên nền tảng số."},
+{id:"b8",from:4.7,to:6.1,team:3,text:"Sự hiện diện của Quý đại biểu sẽ góp phần làm phong phú các thảo luận chuyên môn, kết nối nghiên cứu và thúc đẩy những hướng hợp tác mới trong lĩnh vực trí tuệ nhân tạo và hệ thống thông tin địa lý."},
+{id:"b9",from:5.6,to:6.5,team:4,text:"THỜI GIAN:  [Giờ] · [Ngày / tháng / năm]"},
+{id:"b10",from:6.0,to:6.9,team:4,text:"ĐỊA ĐIỂM:  [Địa điểm tổ chức]"},
+{id:"b11",from:6.4,to:7.2,team:5,text:"NỘI DUNG:  Giới thiệu · Demo · Thảo luận · Kết nối"},
+{id:"b12",from:6.8,to:7.65,team:2,text:"Kính mong Quý đại biểu xác nhận tham dự với Ban Tổ chức trước ngày [Hạn xác nhận]."},
+{id:"b13",from:7.15,to:8.05,team:3,text:"Trân trọng kính mời và hân hạnh được đón tiếp!"},
+{id:"b14",from:7.65,to:8.4,team:5,text:"ĐẠI DIỆN BAN TỔ CHỨC"},
+{id:"b15",from:8.2,to:8.95,team:7,text:"(Ký và ghi rõ họ tên)"}
+];
+const events=[
+{at:0,text:"Orchestrator khởi tạo nhiệm vụ 10 giây",phase:"PHÂN CÔNG TÁC TỬ"},
+{at:.6,text:"58 Agent nhận vai trò và mục tiêu",phase:"58 CON TRỎ ĐƯỢC KÍCH HOẠT"},
+{at:1.2,text:"Nhóm bố cục dựng tiêu đề và đầu trang",phase:"DỰNG BỐ CỤC A4"},
+{at:2.4,text:"Nhóm thiết kế căn lề, tạo điểm neo",phase:"CĂN CHỈNH THƯ MỜI"},
+{at:3.5,text:"Nhóm nội dung bắt đầu soạn lời mời",phase:"SOẠN THẢO NỘI DUNG"},
+{at:5.4,text:"Nhóm sự kiện bổ sung lịch và địa điểm",phase:"BỔ SUNG THÔNG TIN"},
+{at:7.2,text:"Nhóm ngôn ngữ rà soát câu chữ",phase:"RÀ SOÁT & BIÊN TẬP"},
+{at:8.2,text:"Nhóm QA chạy 4 cổng kiểm tra",phase:"KIỂM TRA CHẤT LƯỢNG"},
+{at:9.5,text:"Nhóm xuất bản đóng gói thư mời",phase:"XUẤT BẢN TÀI LIỆU"},
+{at:10,text:"Hoàn thành bản mẫu A4 trong 10 giây",phase:"HOÀN TẤT · 10 GIÂY"}
+];
+const checks=[
+{at:8.0,text:"Đủ cấu trúc thư mời"},
+{at:8.5,text:"Chính tả và diễn đạt (mô phỏng)"},
+{at:9.0,text:"Định dạng A4 và căn lề"},
+{at:9.5,text:"Sẵn sàng xuất bản mẫu"}
+];
+let elapsed=0,running=true,speed=1,last=0,lastBucket=-1;
+const nodes=[],xs=[],ys=[];
+let toastTimer=0;
+const fullText=blocks.map(b=>b.text).join("\n\n");
+const cursorHost=$("cursors");
+let index=0;
+teams.forEach((team,ti)=>{
+  for(let k=0;k<team.n;k++){
+    const i=index++;
+    const outer=document.createElement("div");
+    outer.className="agent";
+    outer.title="Agent #"+String(i+1).padStart(2,"0")+" · "+team.name+" · Mô phỏng";
+    outer.setAttribute("aria-label",outer.title);
+    outer.style.setProperty("--role",team.color);
+    outer.innerHTML='<svg aria-hidden="true" viewBox="0 0 23 29"><path d="M2 2 L2 22 L8 17 L12.5 27 L17.5 24.7 L13 15 L22 15 Z" fill="'+team.color+'" stroke="#0b1522" stroke-width="1.65" stroke-linejoin="round"/></svg><span class="agentname">A'+String(i+1).padStart(2,"0")+'</span>';
+    cursorHost.appendChild(outer);
+    const a={node:outer,team:ti,slot:k,index:i,x:0,y:0};
+    nodes.push(a);
+  }
+});
+const checksHost=$("checks");
+checksHost.innerHTML=checks.map((c,i)=>'<div class="check"><span id="checkmark'+i+'" class="checkmark">·</span><span>'+c.text+'</span></div>').join("");
+$("teams").innerHTML=teams.map((t,i)=>'<div class="team"><span class="dot" style="--c:'+t.color+'"></span><span>'+t.name+'</span><span class="count">'+t.n+'</span><span class="tstatus" id="team'+i+'">Chờ</span></div>').join("");
+const net=$("network");
+net.setAttribute("viewBox","0 0 350 175");
+const ns="http://www.w3.org/2000/svg";
+function svg(tag,attrs,parent){
+  const el=document.createElementNS(ns,tag);
+  Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,String(v)));
+  (parent||net).appendChild(el);return el;
+}
+const core={x:175,y:88};
+svg("circle",{cx:175,cy:88,r:29,fill:"#133e50",stroke:"#4298a9","stroke-width":1.5});
+const spokes=[];
+const circles=[];
+teams.forEach((team,i)=>{
+  const a=i*Math.PI*2/8-Math.PI/2;
+  const x=175+Math.cos(a)*120,y=88+Math.sin(a)*65;
+  const line=svg("line",{x1:175,y1:88,x2:x,y2:y,stroke:team.color,"stroke-opacity":.35,"stroke-width":1.5});
+  const c=svg("circle",{cx:x,cy:y,r:8,fill:"#112638",stroke:team.color,"stroke-width":2});
+  const tag=svg("text",{x:x+12,y:y+3,fill:"#9dbece","font-size":9,"font-family":"system-ui"});
+  tag.textContent=String(i+1).padStart(2,"0");
+  const orb=svg("circle",{cx:x,cy:y,r:3,fill:team.color});
+  spokes.push({line,x,y,orb,team:i});
+  circles.push(c);
+});
+const coreLabel=svg("text",{x:175,y:92,"text-anchor":"middle","font-weight":800,"font-family":"system-ui","font-size":11,fill:"#98fff0"});
+coreLabel.textContent="SWARM";
+function pad(t){return String(Math.floor(t)).padStart(2,"0")}
+function clock(t){return "00:"+pad(t)+"."+Math.min(9,Math.floor((t%1)*10))}
+function notify(message){
+  const el=$("toast");el.textContent=message;el.classList.add("show");
+  clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove("show"),2500);
+}
+function updateText(t){
+  blocks.forEach(b=>{
+    const el=$(b.id);
+    const p=(t-b.from)/(b.to-b.from);
+    if(p<=0){if(el.dataset.value!==""){el.textContent="";el.dataset.value=""}el.className=el.className.replace(/\s*(visible|building)/g,"");return}
+    const len=Math.round(Math.max(0,Math.min(1,p))*b.text.length);
+    const val=b.text.slice(0,len);
+    if(el.dataset.value!==val){el.textContent=val;el.dataset.value=val}
+    el.classList.add("visible");el.classList.toggle("building",p<1);
+  });
+}
+function updateUI(t){
+  const n=blocks.filter(b=>t>=b.to).length;
+  $("clock").textContent=clock(t);
+  $("tasks").textContent=n+" / "+blocks.length;
+  $("progress").textContent=Math.min(100,Math.round(t*10))+"%";
+  $("qa").textContent=checks.filter(c=>t>=c.at).length+" / 4";
+  $("seek").value=t;
+  $("timer").textContent=clock(t)+" / 00:10.0";
+  const event=events.filter(e=>t>=e.at).at(-1)||events[0];
+  $("phase").textContent=event.phase.replace(/ ·.*/,"");
+  $("stepLabel").textContent=event.text;
+  $("milestone").textContent=clock(t)+" · "+event.phase;
+  $("state").textContent=t>=10?"✓ HOÀN THÀNH":running?"● ĐANG PHỐI HỢP":"❚❚ TẠM DỪNG";
+  $("mode").textContent=t>=10?"ĐÃ HOÀN THÀNH":"MÔ PHỎNG";
+  $("play").textContent=t>=10?"▶ Xem lại":running?"❚❚ Tạm dừng":"▶ Tiếp tục";
+  $("stamp").classList.toggle("show",t>=9.98);
+  $("guideX").classList.toggle("show",t>=1.2&&t<3.7);
+  $("guideY").classList.toggle("show",t>=1.2&&t<3.7);
+  $("copy").disabled=t<9.98;
+  $("print").disabled=t<9.98;
+  checks.forEach((c,i)=>{
+    const e=$("checkmark"+i);
+    const done=t>=c.at;
+    e.className="checkmark"+(done?" pass":t>=7.8&&i===0?" running":"");
+    e.textContent=done?"✓":t>=7.8&&i===0?"…":"·";
+  });
+  $("qaTag").textContent=t>=9.5?"4/4 PASS · MÔ PHỎNG":t>=7.8?"ĐANG KIỂM TRA":"CHỜ KIỂM TRA";
+  teams.forEach((team,i)=>{
+    const e=$("team"+i);
+    const assigned=blocks.filter(b=>b.team===i);
+    const done=assigned.length?assigned.every(b=>t>=b.to):t>=9.7;
+    e.textContent=done?"Xong":t>=team.begin?"Đang làm":"Chờ";
+    e.className="tstatus"+(done?" done":t>=team.begin?" working":"");
+  });
+  const visibleEvents=events.filter(e=>t>=e.at).slice(-6);
+  $("logs").innerHTML=visibleEvents.map(e=>'<li><time>['+clock(e.at)+']</time><span>'+e.text+'</span></li>').join("");
+  for(let i=0;i<spokes.length;i++){
+    const s=spokes[i];
+    const phase=t*2.4+i;
+    const u=(Math.sin(phase)+1)/2;
+    s.orb.setAttribute("cx",core.x+(s.x-core.x)*u);
+    s.orb.setAttribute("cy",core.y+(s.y-core.y)*u);
+    s.line.setAttribute("stroke-opacity",t<.6?.18:t>=teams[i].begin?.7:.2);
+  }
+}
+function targetForAgent(a,t,wr,sr){
+  const cx=wr.width/2,cy=wr.height*.46;
+  if(t<.8){
+    const angle=a.index*.62+t*5;
+    const radius=18+Math.sqrt(a.index+1)*5;
+    return [cx+Math.cos(angle)*radius,cy+Math.sin(angle)*radius];
+  }
+  if(t>=9.7){
+    const angle=a.index*Math.PI*2/58+t*1.2;
+    return [cx+Math.cos(angle)*(sr.width*.57),cy+Math.sin(angle)*(sr.height*.48)];
+  }
+  let options=blocks.filter(b=>b.team===a.team&&t>=b.from-.3&&t<=b.to+.15);
+  if(!options.length)options=blocks.filter(b=>t>=b.from-.15&&t<=b.to+.2);
+  const b=options.length?options[(a.slot+a.index)%options.length]:blocks[(a.index*3)%blocks.length];
+  const rect=$(b.id).getBoundingClientRect();
+  const baseX=rect.left-wr.left+Math.min(rect.width-12,Math.max(12,((a.index*31)%100)/100*rect.width));
+  const baseY=rect.top-wr.top+Math.min(rect.height,Math.max(12,(a.slot+1)*5));
+  const phase=t*4+a.index*1.3;
+  const spreadX=Math.sin(phase)*14;
+  const spreadY=Math.cos(phase*.8)*11;
+  return [Math.min(wr.width-30,Math.max(5,baseX+spreadX)),Math.min(wr.height-35,Math.max(10,baseY+spreadY))];
+}
+function paintCursors(t){
+  const wr=$("workspace").getBoundingClientRect();
+  const sr=$("sheet").getBoundingClientRect();
+  if(wr.width<1)return;
+  nodes.forEach(a=>{
+    let target=targetForAgent(a,t,wr,sr);
+    if(!a.x&&!a.y){a.x=wr.width/2;a.y=wr.height*.5}
+    const dx=target[0]-a.x,dy=target[1]-a.y;
+    a.x+=dx*.15;a.y+=dy*.15;
+    a.node.style.transform="translate3d("+Math.round(a.x)+"px,"+Math.round(a.y)+"px,0)";
+    const isActive=t>=teams[a.team].begin;
+    a.node.classList.toggle("dim",!isActive&&t>.8&&t<9.7);
+    a.node.style.zIndex=t>=9.7?Math.floor(a.y):"";
+  });
+}
+function render(t){updateText(t);updateUI(t);paintCursors(t)}
+function animate(now){
+  if(!last)last=now;
+  const delta=Math.min(.07,(now-last)/1000);
+  last=now;
+  if(running){elapsed=Math.min(DURATION,elapsed+delta*speed);if(elapsed>=DURATION)running=false}
+  const bucket=Math.floor(elapsed*35);
+  if(bucket!==lastBucket){updateText(elapsed);updateUI(elapsed);lastBucket=bucket}
+  paintCursors(elapsed);
+  requestAnimationFrame(animate);
+}
+$("play").addEventListener("click",()=>{
+  if(elapsed>=DURATION){elapsed=0;running=true}else running=!running;
+  lastBucket=-1;render(elapsed);
+});
+$("replay").addEventListener("click",()=>{elapsed=0;running=true;lastBucket=-1;nodes.forEach(a=>{a.x=0;a.y=0});render(0)});
+$("speed").addEventListener("change",e=>speed=Number(e.target.value)||1);
+$("seek").addEventListener("input",e=>{elapsed=Math.max(0,Math.min(DURATION,Number(e.target.value)));running=false;lastBucket=-1;render(elapsed)});
+$("copy").addEventListener("click",async()=>{
+  try{
+    if(navigator.clipboard&&window.isSecureContext)await navigator.clipboard.writeText(fullText);
+    else{const area=document.createElement("textarea");area.value=fullText;area.style.position="fixed";area.style.opacity="0";document.body.appendChild(area);area.select();if(!document.execCommand("copy"))throw new Error("copy unsupported");area.remove()}
+    notify("Đã sao chép nội dung thư mời mẫu.");
+  }catch(err){notify("Không thể sao chép tự động. Vui lòng chọn và sao chép trực tiếp trên thư.")}
+});
+$("print").addEventListener("click",()=>window.print());
+document.addEventListener("keydown",e=>{if(e.code==="Space"&&!["INPUT","BUTTON","SELECT","TEXTAREA"].includes(document.activeElement.tagName)){e.preventDefault();$("play").click()}});
+render(0);
+requestAnimationFrame(animate);
+})();
+</script>
+</body>
+</html>
