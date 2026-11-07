@@ -1,3 +1,11 @@
+> **SWARMOPS DEMO — 58 AI Agents / 10 giây**
+>
+> [Mở dashboard 58 AI Agents](index.html) · [Hướng dẫn tiếng Việt](SWARMOPS.md) · [Cấu hình GitHub Pages](https://github.com/xulytiengviet/swarm-AI/settings/pages)
+>
+> Trang HTML mô phỏng 58 con trỏ phối hợp xây dựng **thư mời A4 trong 10 giây**, có điều khiển phát/dừng, tua tiến trình, nhật ký tác vụ, kiểm định giả lập và xuất PDF. **Đây là mô phỏng UI, không phải 58 LLM hoạt động thật.** Extension gốc bên dưới vẫn được giữ nguyên.
+
+---
+
 # Swarm Rebuild
 
 A Chrome extension that wipes any web page to a blank canvas and lets a swarm of multiplayer cursors build it back, live: crosshair-drawn boxes, typed text, pen-tool lines, ruler guides and ⌥-drag duplicates, until the page looks just like it did before.
