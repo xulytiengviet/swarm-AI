@@ -6,6 +6,9 @@
 
 ---
 
+> **TRIỂN KHAI DỰ PHÒNG (07/11/2026):** [GitHub Actions run #42328432387](https://github.com/xulytiengviet/swarm-AI/actions/runs/42328432387) thất bại trước khi được cấp runner. Đã tạo nhánh [gh-pages](https://github.com/xulytiengviet/swarm-AI/tree/gh-pages) chứa bản web tĩnh và ảnh K28. Để xuất bản, vào [Settings → Pages](https://github.com/xulytiengviet/swarm-AI/settings/pages) → **Deploy from a branch** → **gh-pages** / **(root)** → **Save**. Xem [hướng dẫn và phân tích lỗi](SWARMOPS.md).
+
+
 
 # Swarm Rebuild
 
