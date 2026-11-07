@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#080e18">
-<meta name="description" content="SwarmOps: 58 tác tử mô phỏng cùng tạo một thư mời hoàn chỉnh trong 10 giây.">
-<title>SwarmOps · 58 AI Agents / 10 giây</title>
+<meta name="description" content="58 AI Agents mô phỏng tái dựng nguyên ảnh thư mời 15 năm ra trường USSH Địa lý K28 trong 10 giây.">
+<title>SwarmOps · 58 AI Agents tái dựng thư mời K28</title>
 <style>
 :root{color-scheme:dark;--bg:#080e18;--panel:#111d2d;--panel2:#152336;--line:#28394e;--ink:#eff8ff;--muted:#91a7bb;--mint:#66e7d4;--blue:#7fa9ff;--gold:#eec783;--ok:#6fe0ac;--radius:15px}
 *{box-sizing:border-box}
@@ -114,6 +114,28 @@ input[type=range]{display:block;width:100%;height:13px;accent-color:var(--mint);
 @media(max-width:550px){.app{padding:0 10px 20px}.top{height:62px}.top nav{font-size:10px}.intro{padding:21px 3px}.toolbar{width:100%}.btn{padding:8px 10px}.kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.kpi{padding:9px 11px;min-height:75px}.kpi b{font-size:24px}.workgrid{gap:10px}.panelhead{padding:12px}.workspace{min-height:654px}.sheet{width:calc(100% - 20px);margin:22px 10px;padding:31px 20px 20px;min-height:610px}.agency{font-size:10px}.paperhead{grid-template-columns:38px 1fr;gap:9px;margin-bottom:13px}.seal{width:36px;height:36px;font-size:16px}.letter-title{font-size:22px}.para,.salutation{font-size:11px}.para{min-height:57px}.closing{font-size:11px}.eventbox{font-size:10px}.signature{font-size:10px}.footerline{font-size:8px}.sheet .doc-chip{display:none}.finished{right:22px;bottom:40px}.side{grid-template-columns:1fr}.side .panel:last-child{grid-column:auto}.timeline span:nth-child(2),.timeline span:nth-child(4){display:none}.bottom{align-items:flex-start;flex-direction:column}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 @media print{@page{size:A4;margin:14mm}body{background:#fff;color:#000}.top,.intro,.kpis,.side,.panelhead,.workbar,.cursor-layer,.milestone,.pagegrid,.finished,.bottom,.toast{display:none!important}.app{margin:0;padding:0;max-width:none}.workgrid,.panel,.workspace{display:block;border:0;background:#fff;overflow:visible;min-height:0}.sheet{margin:0 auto;padding:18mm 15mm;width:100%;max-width:none;min-height:0;box-shadow:none;border:0;page-break-inside:avoid}.build{visibility:visible!important;outline:none!important;background:none!important}.build:after{display:none!important}}
+
+/* Giữ nguyên ảnh K28 bằng cách vẽ lại từng vùng từ cùng một tài nguyên. */
+.workspace{min-height:1010px}
+.poster-frame{position:relative;z-index:2;width:min(620px,calc(100% - 60px));aspect-ratio:2 / 3;margin:18px auto 22px;background:#fffef9;border:1px solid #c3d1d5;border-radius:3px;box-shadow:0 18px 60px #0009;overflow:hidden}
+#posterCanvas{display:block;width:100%;height:100%}
+#posterSource{display:none!important}
+.poster-print{display:none}
+.region-slots{position:absolute;inset:0;pointer-events:none}
+.region{position:absolute;pointer-events:none;z-index:3}
+.region.active{outline:1px dashed #2cc7c9;outline-offset:-1px;background:linear-gradient(90deg,transparent 0,transparent calc(var(--reveal) - 2%),#71d8f055 var(--reveal),transparent calc(var(--reveal) + 3%))}
+.workspace .finished{z-index:9;right:max(25px,calc(50% - 288px));bottom:45px;background:#fffef0dd}
+.workspace .milestone{z-index:12}
+@media(max-width:1150px){.workspace{min-height:940px}.poster-frame{width:min(575px,calc(100% - 25px))}}
+@media(max-width:850px){.workspace{min-height:910px}.poster-frame{width:min(560px,calc(100% - 24px))}}
+@media(max-width:550px){.workspace{min-height:675px}.poster-frame{width:calc(100% - 20px);margin:14px 10px 22px}.workspace .finished{right:12px;bottom:35px}}
+@media print{
+ @page{size:A4;margin:0}
+ .workspace{min-height:0!important;overflow:visible!important;background:#fff!important}
+ .poster-frame{display:block!important;width:100%!important;height:auto!important;max-width:none!important;aspect-ratio:2 / 3;margin:0!important;box-shadow:none!important;border:0!important}
+ #posterCanvas,.region-slots,#posterSource{display:none!important}
+ .poster-print{display:block!important;width:100%!important;height:auto!important}
+}
 </style>
 </head>
 <body>
@@ -123,8 +145,9 @@ input[type=range]{display:block;width:100%;height:13px;accent-color:var(--mint);
   <nav><a href="https://github.com/xulytiengviet/swarm-AI" target="_blank" rel="noopener noreferrer">Mã nguồn ↗</a><span class="status"><i></i> <span id="mode">MÔ PHỎNG</span></span></nav>
 </header>
 <section class="intro">
-  <div><div class="eyebrow">Live coordination theater · Swarm AI</div><h1>58 AI Agents. Một thư mời. 10 giây.</h1><p>Quan sát 58 con trỏ làm việc đồng thời: chia nhiệm vụ, soạn thảo, căn chỉnh, kiểm tra và hoàn tất một thư mời. Mọi trạng thái là mô phỏng, không thực thi LLM thật.</p></div>
+  <div><div class="eyebrow">Live coordination theater · Swarm AI</div><h1>58 AI Agents dựng lại thư mời K28 trong 10 giây</h1><p>Ảnh thư mời gốc “Tọa Độ Thanh Xuân” (USSH – Địa lý K28). Quan sát 58 con trỏ chia 16 vùng, tái dựng hoa lá, ảnh trường, nội dung và hai khung sự kiện.</p></div>
   <div class="toolbar">
+    <a class="btn" href="assets/k28-invitation.webp" target="_blank" rel="noopener noreferrer">▣ Xem ảnh gốc</a>
     <button type="button" id="play" class="btn primary">❚❚ Tạm dừng</button>
     <button type="button" id="replay" class="btn">↻ Chạy lại</button>
     <label for="speed" class="eyebrow" style="margin:0;color:#99acbc;letter-spacing:0">Tốc độ</label>
@@ -136,39 +159,22 @@ input[type=range]{display:block;width:100%;height:13px;accent-color:var(--mint);
 <section class="kpis" aria-label="Chỉ số mô phỏng">
   <div class="kpi hot"><label>AI Agents</label><b>58<span style="font-size:12px;color:#8eaac1"> / 58</span></b><small>8 nhóm chuyên trách</small></div>
   <div class="kpi"><label>Thời gian</label><b id="clock">00:00.0</b><small>Ngân sách: 10 giây</small></div>
-  <div class="kpi"><label>Công việc</label><b id="tasks">0 / 16</b><small>Đầu việc hoàn thành</small></div>
+  <div class="kpi"><label>Vùng ảnh</label><b id="tasks">0 / 16</b><small>Đầu việc hoàn thành</small></div>
   <div class="kpi"><label>Tiến độ</label><b id="progress">0%</b><small id="phase">Khởi động</small></div>
-  <div class="kpi"><label>Kiểm định</label><b id="qa">0 / 4</b><small>Tiêu chí kiểm tra</small></div>
+  <div class="kpi"><label>QA mô phỏng</label><b id="qa">0 / 4</b><small>Tiêu chí kiểm tra</small></div>
 </section>
 <main class="workgrid">
   <section class="panel" aria-label="Không gian dựng thư mời">
-    <div class="panelhead"><div><h2>DOCUMENT WORKSPACE / LIVE REBUILD</h2><p>58 con trỏ cùng biên tập trang giấy A4 từ trạng thái trắng</p></div><span id="state" class="pill">● ĐANG PHỐI HỢP</span></div>
+    <div class="panelhead"><div><h2>K28 INVITATION / LIVE REBUILD</h2><p>16 vùng của thư mời nguyên bản được 58 con trỏ phối hợp vẽ lại</p></div><span id="state" class="pill">● ĐANG PHỐI HỢP</span></div>
     <div class="workspace" id="workspace">
       <div class="milestone" id="milestone">00:00 · PHÂN CÔNG TÁC TỬ</div>
       <div class="pagegrid" aria-hidden="true"><div class="ruler-y" id="guideY"></div><div class="ruler-x" id="guideX"></div></div>
-      <article class="sheet" id="sheet" aria-label="Thư mời đang được tạo">
-        <span class="doc-chip">SWARM-DOC · A4</span>
-        <div class="paperhead">
-          <div class="seal" aria-hidden="true">AI</div>
-          <div><div class="agency build" id="b0"></div><div class="agency-sub build" id="b1"></div></div>
-        </div>
-        <div class="letter-ref"><span class="build" id="b2"></span><span class="build" id="b3"></span></div>
-        <div class="letter-title build" id="b4"></div>
-        <div class="letter-sub build" id="b5"></div>
-        <div class="salutation build" id="b6"></div>
-        <div class="para build" id="b7"></div>
-        <div class="para build" id="b8"></div>
-        <div class="eventbox">
-          <div class="eventline build" id="b9"></div>
-          <div class="eventline build" id="b10"></div>
-          <div class="eventline build" id="b11"></div>
-        </div>
-        <div class="closing build" id="b12"></div>
-        <div class="closing build" id="b13"></div>
-        <div class="signature"><div class="build" id="b14"></div><span class="signed build" id="b15"></span></div>
-        <div class="footerline">Bản mẫu minh họa · Chỉnh sửa thông tin sự kiện trước khi gửi chính thức.</div>
-        <div class="folio">01 / 01</div>
-      </article>
+      <div class="poster-frame" id="sheet" role="img" aria-label="Tái dựng thư mời 15 năm ra trường Địa lý K28">
+  <canvas id="posterCanvas" width="900" height="1350" aria-hidden="true"></canvas>
+  <img id="posterPrint" class="poster-print" src="assets/k28-invitation.webp" alt="Ảnh thư mời họp mặt Địa lý K28, 15 năm ra trường, Tọa Độ Thanh Xuân" width="900" height="1350">
+  <img id="posterSource" src="assets/k28-invitation.webp" alt="" hidden decoding="async">
+  <div class="region-slots" id="regionSlots" aria-hidden="true"></div>
+</div>
       <div class="finished" id="stamp">✓ ĐÃ HOÀN THÀNH</div>
       <div class="cursor-layer" id="cursors" aria-label="58 con trỏ mô phỏng"></div>
     </div>
@@ -194,8 +200,8 @@ input[type=range]{display:block;width:100%;height:13px;accent-color:var(--mint);
     </section>
   </aside>
 </main>
-<p class="tiny-note"><strong>Minh bạch:</strong> Đây là mô phỏng chuyển động và workflow 58 tác tử, không phải 58 mô hình AI chạy thực tế. Các chỉ số và kết quả kiểm định trong demo được tạo theo kịch bản định trước. Khi muốn vận hành thật cần kết nối backend điều phối, LLM và công cụ xác thực.</p>
-<footer class="bottom"><span>© 2026 SwarmOps · Mô phỏng giáo dục AI bầy đàn · Xây dựng độc lập, không sao chép Swarm Rebuild.</span><span><a href="https://github.com/xulytiengviet/swarm-AI" target="_blank" rel="noopener noreferrer">GitHub / xulytiengviet/swarm-AI ↗</a></span></footer>
+<p class="tiny-note"><strong>Minh bạch:</strong> Ảnh cuối được dựng từ ảnh thư mời K28 do người dùng cung cấp; không phải thư mời mới do AI sáng tác. 58 con trỏ, các nhiệm vụ và QA đều chạy theo kịch bản 10 giây để minh họa, chưa kết nối 58 LLM thật.</p>
+<footer class="bottom"><span>© 2026 SwarmOps · Minh họa 58 Agent dựng ảnh K28 · Kịch bản trực quan.</span><span><a href="https://github.com/xulytiengviet/swarm-AI" target="_blank" rel="noopener noreferrer">GitHub / xulytiengviet/swarm-AI ↗</a></span></footer>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>
@@ -214,46 +220,60 @@ const teams=[
 {name:"Xuất bản",n:7,color:"#8cb8f7",begin:9.1}
 ];
 const blocks=[
-{id:"b0",from:.8,to:1.55,team:1,text:"BAN TỔ CHỨC CHUYÊN ĐỀ AI & WEBGIS"},
-{id:"b1",from:1.1,to:1.8,team:5,text:"Kết nối tri thức · Đồng kiến tạo tương lai"},
-{id:"b2",from:1.55,to:2.1,team:1,text:"Số: 01/TM-SWARMOPS"},
-{id:"b3",from:1.65,to:2.2,team:4,text:"Ngày ... tháng ... năm ..."},
-{id:"b4",from:2.05,to:2.85,team:5,text:"THƯ MỜI"},
-{id:"b5",from:2.45,to:3.2,team:2,text:"Tham dự hội thảo chuyên đề AI bầy đàn và WebGIS"},
-{id:"b6",from:3.0,to:3.75,team:3,text:"Kính gửi: Quý đại biểu và các nhà nghiên cứu,"},
-{id:"b7",from:3.4,to:5.0,team:2,text:"Ban Tổ chức trân trọng kính mời Quý đại biểu tham dự buổi giới thiệu chuyên đề “AI bầy đàn và WebGIS: Từ tác tử thông minh đến ứng dụng thực tiễn”. Chương trình là dịp trao đổi về cách các tác tử AI phân công, cộng tác và kiểm chứng kết quả trên nền tảng số."},
-{id:"b8",from:4.7,to:6.1,team:3,text:"Sự hiện diện của Quý đại biểu sẽ góp phần làm phong phú các thảo luận chuyên môn, kết nối nghiên cứu và thúc đẩy những hướng hợp tác mới trong lĩnh vực trí tuệ nhân tạo và hệ thống thông tin địa lý."},
-{id:"b9",from:5.6,to:6.5,team:4,text:"THỜI GIAN:  [Giờ] · [Ngày / tháng / năm]"},
-{id:"b10",from:6.0,to:6.9,team:4,text:"ĐỊA ĐIỂM:  [Địa điểm tổ chức]"},
-{id:"b11",from:6.4,to:7.2,team:5,text:"NỘI DUNG:  Giới thiệu · Demo · Thảo luận · Kết nối"},
-{id:"b12",from:6.8,to:7.65,team:2,text:"Kính mong Quý đại biểu xác nhận tham dự với Ban Tổ chức trước ngày [Hạn xác nhận]."},
-{id:"b13",from:7.15,to:8.05,team:3,text:"Trân trọng kính mời và hân hạnh được đón tiếp!"},
-{id:"b14",from:7.65,to:8.4,team:5,text:"ĐẠI DIỆN BAN TỔ CHỨC"},
-{id:"b15",from:8.2,to:8.95,team:7,text:"(Ký và ghi rõ họ tên)"}
+{id:"b0",x:0,y:0,w:0.5,h:0.17,from:0.65,to:1.65,team:1,text:"Kỷ niệm 15 năm và logo Địa lý K28"},
+{id:"b1",x:0.5,y:0,w:0.5,h:0.17,from:0.9,to:1.9,team:5,text:"Cây hoa và khung cảnh phía trên"},
+{id:"b2",x:0,y:0.17,w:0.5,h:0.15,from:1.6,to:2.6,team:1,text:"Tọa Độ Thanh Xuân"},
+{id:"b3",x:0.5,y:0.17,w:0.5,h:0.15,from:1.8,to:2.8,team:5,text:"Trường Đại học KHXH&NV"},
+{id:"b4",x:0,y:0.32,w:0.5,h:0.1,from:2.6,to:3.5,team:2,text:"Chữ Thư Mời thư pháp"},
+{id:"b5",x:0.5,y:0.32,w:0.5,h:0.1,from:2.7,to:3.6,team:5,text:"Tiêu đề tham dự buổi họp mặt"},
+{id:"b6",x:0,y:0.42,w:0.5,h:0.1,from:3.5,to:4.5,team:2,text:"Kính mời Quý Thầy Cô khoa Địa lý"},
+{id:"b7",x:0.5,y:0.42,w:0.5,h:0.1,from:3.6,to:4.6,team:3,text:"Thầy Ngô Hoàng Đại Long"},
+{id:"b8",x:0,y:0.52,w:0.5,h:0.1,from:4.4,to:5.6,team:2,text:"Nội dung thư và chủ đề họp mặt"},
+{id:"b9",x:0.5,y:0.52,w:0.5,h:0.1,from:4.5,to:5.7,team:3,text:"Lời tri ân Quý Thầy Cô"},
+{id:"b10",x:0,y:0.62,w:0.5,h:0.15,from:5.4,to:6.8,team:4,text:"Thứ Bảy 14/11/2026 lúc 12:00"},
+{id:"b11",x:0.5,y:0.62,w:0.5,h:0.15,from:5.5,to:6.9,team:4,text:"Gala Dinner lúc 17:00"},
+{id:"b12",x:0,y:0.77,w:0.5,h:0.14,from:6.7,to:8,team:1,text:"Ảnh cơ sở Linh Xuân"},
+{id:"b13",x:0.5,y:0.77,w:0.5,h:0.14,from:6.8,to:8.1,team:5,text:"Ảnh khách sạn Harmony Saigon"},
+{id:"b14",x:0,y:0.91,w:0.5,h:0.09,from:7.9,to:9.2,team:6,text:"Kỷ vật, hoa và ảnh lưu niệm K28"},
+{id:"b15",x:0.5,y:0.91,w:0.5,h:0.09,from:8,to:9.3,team:7,text:"Trân trọng kính mời và Ban Tổ chức"}
 ];
 const events=[
-{at:0,text:"Orchestrator khởi tạo nhiệm vụ 10 giây",phase:"PHÂN CÔNG TÁC TỬ"},
-{at:.6,text:"58 Agent nhận vai trò và mục tiêu",phase:"58 CON TRỎ ĐƯỢC KÍCH HOẠT"},
-{at:1.2,text:"Nhóm bố cục dựng tiêu đề và đầu trang",phase:"DỰNG BỐ CỤC A4"},
-{at:2.4,text:"Nhóm thiết kế căn lề, tạo điểm neo",phase:"CĂN CHỈNH THƯ MỜI"},
-{at:3.5,text:"Nhóm nội dung bắt đầu soạn lời mời",phase:"SOẠN THẢO NỘI DUNG"},
-{at:5.4,text:"Nhóm sự kiện bổ sung lịch và địa điểm",phase:"BỔ SUNG THÔNG TIN"},
-{at:7.2,text:"Nhóm ngôn ngữ rà soát câu chữ",phase:"RÀ SOÁT & BIÊN TẬP"},
-{at:8.2,text:"Nhóm QA chạy 4 cổng kiểm tra",phase:"KIỂM TRA CHẤT LƯỢNG"},
-{at:9.5,text:"Nhóm xuất bản đóng gói thư mời",phase:"XUẤT BẢN TÀI LIỆU"},
-{at:10,text:"Hoàn thành bản mẫu A4 trong 10 giây",phase:"HOÀN TẤT · 10 GIÂY"}
+{at:0,text:"Orchestrator phân vùng ảnh thư mời K28",phase:"PHÂN CÔNG TÁC TỬ"},
+{at:0.6,text:"58 Agent tiếp nhận 16 vùng cần tái dựng",phase:"KÍCH HOẠT 58 CON TRỎ"},
+{at:1.2,text:"Khôi phục biểu tượng 15 năm và hoa lá",phase:"DỰNG TIÊU ĐỀ & CẢNH QUAN"},
+{at:2.4,text:"Phối hợp tái dựng chữ thư pháp",phase:"TỌA ĐỘ THANH XUÂN"},
+{at:3.5,text:"Hiện lời kính mời Quý Thầy Cô",phase:"KÍNH MỜI QUÝ THẦY CÔ"},
+{at:5.4,text:"Dựng phần nội dung tri ân và địa điểm",phase:"THƯ MỜI & TRI ÂN"},
+{at:7.2,text:"Ghép ảnh hai chương trình họp mặt",phase:"KHUNG GIỜ 12:00 & 17:00"},
+{at:8.2,text:"Kiểm tra vị trí các vùng trên ảnh",phase:"KIỂM ĐỊNH GIẢ LẬP"},
+{at:9.5,text:"Ghép kỷ vật và phần chữ ký cuối",phase:"HOÀN THIỆN THƯ MỜI"},
+{at:10,text:"Hoàn thành ảnh thư mời gốc sau 10 giây",phase:"HOÀN TẤT · 10 GIÂY"}
 ];
 const checks=[
-{at:8.0,text:"Đủ cấu trúc thư mời"},
-{at:8.5,text:"Chính tả và diễn đạt (mô phỏng)"},
-{at:9.0,text:"Định dạng A4 và căn lề"},
-{at:9.5,text:"Sẵn sàng xuất bản mẫu"}
+{at:8,text:"Đã ghép đủ 16 vùng của ảnh"},
+{at:8.5,text:"Đối chiếu bố cục (mô phỏng)"},
+{at:9,text:"Giữ tỷ lệ gốc 2:3"},
+{at:9.5,text:"Sẵn sàng xuất ảnh hoàn chỉnh"}
 ];
 let elapsed=0,running=true,speed=1,last=0,lastBucket=-1;
 const nodes=[],xs=[],ys=[];
 let toastTimer=0;
-const fullText=blocks.map(b=>b.text).join("\n\n");
+const fullText="15 NĂM RA TRƯỜNG – USSH – ĐỊA LÝ K28\nTỌA ĐỘ THANH XUÂN · 2007 – 2011 | 2026\nTHƯ MỜI THAM DỰ BUỔI HỌP MẶT\n\nKính mời: QUÝ THẦY CÔ KHOA ĐỊA LÝ\nThầy Ngô Hoàng Đại Long\n\nKính thưa Quý Thầy Cô,\nNhân dịp kỷ niệm 15 năm ngày ra trường (2007 – 2011 | 2026), tập thể cựu sinh viên Địa lý K28 – Trường Đại học Khoa học Xã hội và Nhân văn, ĐHQG-HCM trân trọng kính mời Quý Thầy Cô đến tham dự buổi họp mặt với chủ đề “Tọa Độ Thanh Xuân”.\n\nĐây là dịp để chúng em được gặp lại, ôn lại những kỷ niệm dưới mái trường thân yêu, và bày tỏ lòng biết ơn sâu sắc đến Quý Thầy Cô đã tận tình giảng dạy, dìu dắt chúng em trong những năm tháng đại học.\nSự hiện diện của Quý Thầy Cô là niềm vinh dự và hạnh phúc lớn lao đối với tập thể lớp.\n\nThứ 7, ngày 14/11/2026, 12:00 – Trở về thanh xuân.\nTại Hội trường ĐH KHXH&NV ĐHQG-HCM – Cơ sở Linh Xuân.\n\n17:00 – Gala Dinner.\nTại Harmony Saigon Hotel & Spa, 32A–34 Bùi Thị Xuân, phường Bến Thành, TP. Hồ Chí Minh.\n\nTrân trọng kính mời!\nBAN TỔ CHỨC GẶP MẶT LỚP ĐỊA LÝ K28 – 15 NĂM RA TRƯỜNG";
 const cursorHost=$("cursors");
+
+const posterCanvas=$("posterCanvas"),posterCtx=posterCanvas.getContext("2d",{alpha:false});
+const posterSource=$("posterSource");
+const regionSlots=$("regionSlots");
+blocks.forEach(b=>{
+ const region=document.createElement("div");
+ region.id=b.id;region.className="region";region.title=b.text;
+ region.style.left=(b.x*100)+"%";region.style.top=(b.y*100)+"%";
+ region.style.width=(b.w*100)+"%";region.style.height=(b.h*100)+"%";
+ regionSlots.appendChild(region);
+});
+posterSource.addEventListener("load",()=>{lastBucket=-1;render(elapsed)});
+posterSource.addEventListener("error",()=>notify("Không tải được ảnh thư mời từ assets/k28-invitation.webp."));
+
 let index=0;
 teams.forEach((team,ti)=>{
   for(let k=0;k<team.n;k++){
@@ -304,15 +324,24 @@ function notify(message){
   clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove("show"),2500);
 }
 function updateText(t){
-  blocks.forEach(b=>{
-    const el=$(b.id);
-    const p=(t-b.from)/(b.to-b.from);
-    if(p<=0){if(el.dataset.value!==""){el.textContent="";el.dataset.value=""}el.className=el.className.replace(/\s*(visible|building)/g,"");return}
-    const len=Math.round(Math.max(0,Math.min(1,p))*b.text.length);
-    const val=b.text.slice(0,len);
-    if(el.dataset.value!==val){el.textContent=val;el.dataset.value=val}
-    el.classList.add("visible");el.classList.toggle("building",p<1);
-  });
+ const ctx=posterCtx,w=posterCanvas.width,h=posterCanvas.height;
+ ctx.clearRect(0,0,w,h);
+ ctx.fillStyle="#fffefa";ctx.fillRect(0,0,w,h);
+ if(t<.65){
+  ctx.strokeStyle="rgba(18,77,124,.07)";ctx.lineWidth=1;
+  for(let x=0;x<w;x+=60){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke()}
+  for(let y=0;y<h;y+=60){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}
+ }
+ blocks.forEach(b=>{
+  const p=Math.max(0,Math.min(1,(t-b.from)/(b.to-b.from)));
+  const region=$(b.id);region.classList.toggle("active",p>0&&p<1);
+  region.style.setProperty("--reveal",(p*100).toFixed(1)+"%");
+  if(p<=0||!posterSource.complete||!posterSource.naturalWidth)return;
+  const x=Math.round(b.x*w),y=Math.round(b.y*h);
+  const bw=Math.round((b.x+b.w)*w)-x,bh=Math.round((b.y+b.h)*h)-y;
+  const drawn=Math.min(bw,Math.max(0,Math.round(bw*p)));
+  if(drawn>0)ctx.drawImage(posterSource,x,y,drawn,bh,x,y,drawn,bh);
+ });
 }
 function updateUI(t){
   const n=blocks.filter(b=>t>=b.to).length;
