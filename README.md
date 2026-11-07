@@ -1,14 +1,12 @@
-> **SWARMOPS · 58 AI AGENTS — THƯ MỜI ĐỊA LÝ K28**
+> **SWARMOPS · THIỆP MỜI K28 — 33 AGENTS / 33 GIÂY**
 >
-> [Mở mô phỏng trực tiếp](https://xulytiengviet.github.io/swarm-AI/) · [Xem ảnh thư mời gốc](assets/k28-invitation.webp) · [Hướng dẫn tiếng Việt](SWARMOPS.md)
+> [Xem website](https://xulytiengviet.github.io/swarm-AI/) · [Trang nguồn](index.html)
 >
-> 58 con trỏ chia 8 đội dựng lại **nguyên bản ảnh thư mời “Tọa Độ Thanh Xuân”**, kỷ niệm 15 năm ra trường USSH – Địa lý K28, trong 10 giây. Có tua, phát/dừng, chạy lại, nhật ký, 16 vùng ảnh, sao chép văn bản và lưu PDF. **Đây là mô phỏng UI, không phải 58 LLM thực.**
+> Giao diện thiệp mời tối giản trên nền đỏ bordo. 33 tác tử trực quan tái dựng ảnh thư mời K28 trong **33 giây**. Dòng người được mời đã điều chỉnh thành **“cùng các bạn chuyên ngành Kinh tế, Khóa 28”**. Toàn bộ bảng điều khiển và nhật ký cũ đã bỏ khỏi màn hình.
+>
+> **Lưu ý kỹ thuật:** Ảnh gốc WebP vẫn là tài nguyên nền; câu mời mới được dựng trực tiếp lên ảnh bằng Canvas khi mở website. Bản mô phỏng không chạy 33 LLM thực tế.
 
 ---
-
-> **TRIỂN KHAI DỰ PHÒNG (07/11/2026):** [GitHub Actions run #42328432387](https://github.com/xulytiengviet/swarm-AI/actions/runs/42328432387) thất bại trước khi được cấp runner. Đã tạo nhánh [gh-pages](https://github.com/xulytiengviet/swarm-AI/tree/gh-pages) chứa bản web tĩnh và ảnh K28. Để xuất bản, vào [Settings → Pages](https://github.com/xulytiengviet/swarm-AI/settings/pages) → **Deploy from a branch** → **gh-pages** / **(root)** → **Save**. Xem [hướng dẫn và phân tích lỗi](SWARMOPS.md).
-
-
 
 # Swarm Rebuild
 
