@@ -1,10 +1,11 @@
-> **SWARMOPS DEMO — 58 AI Agents / 10 giây**
+> **SWARMOPS · 58 AI AGENTS — THƯ MỜI ĐỊA LÝ K28**
 >
-> [Mở dashboard 58 AI Agents](index.html) · [Hướng dẫn tiếng Việt](SWARMOPS.md) · [Cấu hình GitHub Pages](https://github.com/xulytiengviet/swarm-AI/settings/pages)
+> [Mở mô phỏng trực tiếp](https://xulytiengviet.github.io/swarm-AI/) · [Xem ảnh thư mời gốc](assets/k28-invitation.webp) · [Hướng dẫn tiếng Việt](SWARMOPS.md)
 >
-> Trang HTML mô phỏng 58 con trỏ phối hợp xây dựng **thư mời A4 trong 10 giây**, có điều khiển phát/dừng, tua tiến trình, nhật ký tác vụ, kiểm định giả lập và xuất PDF. **Đây là mô phỏng UI, không phải 58 LLM hoạt động thật.** Extension gốc bên dưới vẫn được giữ nguyên.
+> 58 con trỏ chia 8 đội dựng lại **nguyên bản ảnh thư mời “Tọa Độ Thanh Xuân”**, kỷ niệm 15 năm ra trường USSH – Địa lý K28, trong 10 giây. Có tua, phát/dừng, chạy lại, nhật ký, 16 vùng ảnh, sao chép văn bản và lưu PDF. **Đây là mô phỏng UI, không phải 58 LLM thực.**
 
 ---
+
 
 # Swarm Rebuild
 
