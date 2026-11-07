@@ -1,3 +1,26 @@
+## Khắc phục Actions không được cấp runner (07/11/2026)
+
+GitHub Actions run [42328432387](https://github.com/xulytiengviet/swarm-AI/actions/runs/42328432387) thất bại nhiều lần **trước khi chạy bất kỳ bước nào**: runner_id=0, steps=[], thời lượng sử dụng runner 0ms. Đây là dấu hiệu lỗi cấp phát/khởi tạo runner, **không có bằng chứng file ảnh hay cú pháp HTML gây lỗi**. Không thể kết luận nguyên nhân hạ tầng chính xác vì GitHub không trả log chi tiết/annotations qua kết nối hiện tại.
+
+### Giải pháp không cần runner — dùng nhánh gh-pages
+
+Nhánh [gh-pages](https://github.com/xulytiengviet/swarm-AI/tree/gh-pages) đã được tạo độc lập và chứa đủ:
+
+- `index.html` — giao diện mô phỏng 58 con trỏ/16 vùng/10 giây.
+- `assets/k28-invitation.webp` — ảnh thư mời USSH Địa lý K28.
+- `.nojekyll` — xuất bản file tĩnh trực tiếp.
+
+**Cần thao tác một lần trên giao diện GitHub:**
+1. Mở [Settings → Pages](https://github.com/xulytiengviet/swarm-AI/settings/pages).
+2. Mục **Build and deployment**, đổi **Source** từ **GitHub Actions** sang **Deploy from a branch**.
+3. Chọn **Branch: gh-pages**, thư mục **/(root)** và nhấn **Save**.
+4. Khi GitHub thông báo đã xuất bản, truy cập https://xulytiengviet.github.io/swarm-AI/ và dùng Ctrl+F5 để bỏ cache cũ.
+
+Từ nay workflow Actions trên `main` chỉ chạy khi bấm **Run workflow**; nó không tự chạy theo push, tránh lặp lại lỗi cấp runner. **Không cần chạy lại job 42328432387** để sử dụng chế độ Pages từ nhánh. Trường hợp GitHub báo lỗi ngay cả khi dùng branch, cần kiểm tra mục thông báo tài khoản, Pages settings và khả năng sử dụng GitHub Actions của chủ repository.
+
+
+---
+
 # SWARMOPS – 58 AI Agents tái dựng thư mời K28 trong 10 giây
 
 **Xem trực tuyến:** https://xulytiengviet.github.io/swarm-AI/
